@@ -57,8 +57,10 @@ void bestFit(mem **head, char name[16], int size, int totalMem) {
 				while (currNode != NULL && currNode->start + currNode->size < new->start) {
 					currNode = currNode->next;
 				}
-				new->next = currNode->next;
-				currNode->next = new;
+				if (currNode != NULL) {
+					new->next = currNode->next;
+					currNode->next = new;
+				}
 			}
 			printf("ALLOCATED %s %d\n", name, new->start);
 		}
@@ -113,8 +115,10 @@ void firstFit(mem **head, char name[16], int size, int totalMem) {
 			new->start = curr;
 			new->size = size;
 			strncpy(new->name, name, 16);
-			new->next = last->next;
-			last->next = new;
+			if (last != NULL) {
+				new->next = last->next;
+				last->next = new;
+			}
 			printf("ALLOCATED %s %d\n", name, new->start);
 		}
 		else {
@@ -211,8 +215,10 @@ void nextFit(mem **head, char name[16], int size, int totalMem, mem **next) {
 			new->start = curr;
 			new->size = size;
 			strncpy(new->name, name, 16);
-			new->next = last->next;
-			last->next = new;
+			if (last != NULL) {
+				new->next = last->next;
+				last->next = new;
+			}
 			printf("ALLOCATED %s %d\n", name, new->start);
 			*next = new;
 			return;
@@ -287,7 +293,7 @@ void release(mem **head, char name[16]) {
 		last = memory;
 		memory = memory->next;
 	}
-	if (memory != NULL) {
+	if (memory != NULL && last != NULL) {
 		printf("FREE %s %d %d\n", name, memory->size, memory->start);
 		last->next = memory->next;
 		free(memory);
