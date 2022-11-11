@@ -286,7 +286,7 @@ void worstFit(mem **head, char name[16], int size, int totalMem) {
 	}
 }
 
-void release(mem **head, char name[16]) {
+void release(mem **head, char name[16], mem **next) {
 	mem *last = NULL;
 	mem *memory = *head;
 	while (memory != NULL && strcmp(memory->name, name) != 0) {
@@ -295,6 +295,10 @@ void release(mem **head, char name[16]) {
 	}
 	if (memory != NULL) {
 		printf("FREE %s %d %d\n", name, memory->size, memory->start);
+		mem *temp = *next;
+		if (memory == temp) {
+			*next = NULL;
+		}
 		if (last == NULL) {
 			*head = memory->next;
 		}
@@ -423,7 +427,7 @@ int main(int argc, char** argv) {
 			char name[16];
 			sscanf(line, "%s %s\n", command, name);
 			//printf("RELEASE %s\n", name);
-			release(&memory, name);
+			release(&memory, name, &next);
 		}
 		else if (strcmp(command, "LIST") == 0) {
 			char command2[16];
