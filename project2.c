@@ -336,7 +336,7 @@ void listAvailable(mem **head, int totalMem) {
 void listAssigned(mem **head) {
 	mem *memory = *head;
 	if (memory == NULL) {
-		printf("None\n");
+		printf("NONE\n");
 	}
 	else {
 		while (memory != NULL) {
