@@ -293,9 +293,14 @@ void release(mem **head, char name[16]) {
 		last = memory;
 		memory = memory->next;
 	}
-	if (memory != NULL && last != NULL) {
+	if (memory != NULL) {
 		printf("FREE %s %d %d\n", name, memory->size, memory->start);
-		last->next = memory->next;
+		if (last == NULL) {
+			*head = memory->next;
+		}
+		else {
+			last->next = memory->next;
+		}
 		free(memory);
 	}
 	else {
